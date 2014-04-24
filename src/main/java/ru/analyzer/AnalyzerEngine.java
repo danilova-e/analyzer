@@ -13,7 +13,6 @@ import ru.analyzer.model.SubjectGrade;
 
 import javax.swing.*;
 import java.awt.*;
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -25,7 +24,7 @@ public class AnalyzerEngine extends JFrame {
     private static final SubjectDepot subjectDepot = new SubjectDepot();
 
     public AnalyzerEngine() throws ParseException {
-        DataTable myPoints = new DataTable(Double.class, Double.class);
+        //DataTable myPoints = new DataTable(Double.class, Double.class);
         DataTable time2grade = new DataTable(Long.class, Integer.class);
 
         Scanner cin = new Scanner(System.in);

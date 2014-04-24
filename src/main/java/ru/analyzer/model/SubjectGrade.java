@@ -34,4 +34,5 @@ public class SubjectGrade {
                 ", grade=" + grade +
                 '}';
     }
+
 }
