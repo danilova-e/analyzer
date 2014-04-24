@@ -24,7 +24,7 @@ public class AnalyzerEngine extends JFrame {
     private static final SubjectDepot subjectDepot = new SubjectDepot();
 
     public AnalyzerEngine() throws ParseException {
-        //I love Katya!
+        //I love Федя!
 
         //DataTable myPoints = new DataTable(Double.class, Double.class);
         DataTable time2grade = new DataTable(Long.class, Integer.class);
