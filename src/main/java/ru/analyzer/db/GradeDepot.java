@@ -5,11 +5,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import ru.analyzer.model.Grade;
-import ru.analyzer.model.Subject;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 /**
  * Created by Катя on 18.04.2014.
@@ -37,6 +35,17 @@ public class GradeDepot {
         try {
             return jdbcTemplate.queryForObject(
                     "SELECT * FROM grade WHERE id = " + gradeId,
+                    new GradeRowMapper()
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public Grade getByValue(int value) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM grade WHERE value = " + value,
                     new GradeRowMapper()
             );
         } catch (EmptyResultDataAccessException e) {

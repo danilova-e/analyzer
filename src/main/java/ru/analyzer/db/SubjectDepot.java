@@ -10,7 +10,6 @@ import org.springframework.jdbc.support.KeyHolder;
 import ru.analyzer.model.Subject;
 
 import java.sql.*;
-import java.util.List;
 
 public class SubjectDepot {
 
@@ -51,6 +50,7 @@ public class SubjectDepot {
                 },
                 keyHolder
         );
+
         return new Subject(keyHolder.getKey().intValue(), subject.getName());
     }
 
@@ -64,6 +64,20 @@ public class SubjectDepot {
             return null;
         }
     }
+
+    public Subject getByName(String name) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM subject WHERE name = ?",
+                    new SubjectRowMapper(),
+                    name
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+
 
     //реализует интерфейс RowMapper(конструирует из строки таблицы объект Subject)
     private class SubjectRowMapper implements RowMapper<Subject> {

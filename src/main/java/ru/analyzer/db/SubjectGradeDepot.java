@@ -34,7 +34,7 @@ public class SubjectGradeDepot {
     }
 
     //все SubjectGrade(Subject subject, Date time, Grade grade) по subject_id
-    public List<SubjectGrade> getAll(int subjectId) {
+    public List<SubjectGrade> get(int subjectId) {
         return jdbcTemplate.query("SELECT * FROM subject_grade WHERE subject_id = " + subjectId, new SubjectGradeRowMapper());
     }
 
@@ -45,7 +45,7 @@ public class SubjectGradeDepot {
     }
 
     //все SubjectGrade(Subject subject, Date date, Grade grade) по subject_id
-    public List<SubjectGrade> getByDate(int subjectId, Date date) {
+    public List<SubjectGrade> getSince(int subjectId, Date date) {
         return jdbcTemplate.query(
                 "SELECT * FROM subject_grade WHERE subject_id = ? AND date >= ?",
                 new SubjectGradeRowMapper(),
@@ -53,6 +53,18 @@ public class SubjectGradeDepot {
                 date
         );
     }
+
+    public List<SubjectGrade> getUntil(int subjectId, Date since, Date until) {
+        return jdbcTemplate.query(
+                "SELECT * FROM subject_grade WHERE subject_id = ? AND date >= ? AND date <= ?",
+                new SubjectGradeRowMapper(),
+                subjectId,
+                since,
+                until
+        );
+    }
+
+
 
     //реализует интерфейс RowMapper(конструирует из строки таблицы объект SubjectGrade)
     private class SubjectGradeRowMapper implements RowMapper<SubjectGrade> {
@@ -75,7 +87,7 @@ public class SubjectGradeDepot {
         SubjectGradeDepot subjectGradeDepot = new SubjectGradeDepot();
         //subjectGradeDepot.add(new SubjectGrade(new Subject(3, "health"), new Date(), new Grade(10, 10)));
 
-        Date date = subjectGradeDepot.getAll(4).get(0).getDate();
-        System.out.println(subjectGradeDepot.getByDate(3, date));
+        Date date = subjectGradeDepot.get(4).get(0).getDate();
+        System.out.println(subjectGradeDepot.getSince(3, date));
     }
 }

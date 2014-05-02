@@ -1,75 +1,92 @@
 package ru.analyzer;
 
-import de.erichseifert.gral.data.DataTable;
-import de.erichseifert.gral.plots.XYPlot;
-import de.erichseifert.gral.plots.axes.AxisRenderer;
-import de.erichseifert.gral.plots.lines.DefaultLineRenderer2D;
-import de.erichseifert.gral.plots.lines.LineRenderer;
-import de.erichseifert.gral.ui.InteractivePanel;
-import de.erichseifert.gral.util.Insets2D;
+import ru.analyzer.db.GradeDepot;
 import ru.analyzer.db.SubjectDepot;
 import ru.analyzer.db.SubjectGradeDepot;
+import ru.analyzer.model.Grade;
+import ru.analyzer.model.Subject;
 import ru.analyzer.model.SubjectGrade;
+import ru.analyzer.plot.GradePlot;
 
-import javax.swing.*;
-import java.awt.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
-import java.util.List;
+import java.util.Date;
+import java.util.Scanner;
 
-public class AnalyzerEngine extends JFrame {
+public class AnalyzerEngine {
 
+    private static final SubjectGradeDepot subjectGradeDepot = new SubjectGradeDepot();
     private static final SubjectDepot subjectDepot = new SubjectDepot();
+    private static final GradeDepot gradeDepot = new GradeDepot();
 
-    public AnalyzerEngine() throws ParseException {
-        //I love Федя!
-
-        //DataTable myPoints = new DataTable(Double.class, Double.class);
-        DataTable time2grade = new DataTable(Long.class, Integer.class);
-
-        Scanner cin = new Scanner(System.in);
-        int id = cin.nextInt();
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date date = format.parse(cin.next() + " " + cin.next());
-
-        SubjectGradeDepot subjectGradeDepot = new SubjectGradeDepot();
-        List<SubjectGrade> subjectGrades = subjectGradeDepot.getByDate(id, date);
-        System.out.println(subjectGrades);
-
-        for (SubjectGrade subjectGrade : subjectGrades) {
-            time2grade.add(subjectGrade.getDate().getTime(), subjectGrade.getGrade().getValue());
-        }
-
-        //Panel
-        XYPlot plot = new XYPlot(time2grade);
-        getContentPane().add(new InteractivePanel(plot), BorderLayout.CENTER);
-
-        //Date
-        AxisRenderer rendererX = plot.getAxisRenderer(XYPlot.AXIS_X);
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yy', 'HH:mm");
-        rendererX.setTickLabelFormat(dateFormat);
-        //Lines
-        LineRenderer lines = new DefaultLineRenderer2D();
-        plot.setLineRenderer(time2grade, lines);
-        plot.getLineRenderer(time2grade).setColor(Color.blue);
-
-        //plot.getPointRenderer(myPoints).setColor(Color.WHITE);
-
-        setMinimumSize(getContentPane().getMinimumSize());
-        plot.setInsets(new Insets2D.Double(20.0, 50.0, 40.0, 20.0));
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(900, 500);
-
-    }
+    private static final String ADD = "add";
+    private static final String PLOT = "plot";
+    private static final String END = "end";
+    private static final String CREATE = "create";
 
     public static void main(String[] args) throws ParseException {
-        AnalyzerEngine frame = new AnalyzerEngine();
-        frame.setVisible(true);
+        Scanner cin = new Scanner(System.in);
 
+        while (true) {
+            String command = cin.next();
 
-        System.out.println(subjectDepot.get(1));
+            if (command.equals(CREATE)) {
+                String subjectName = cin.next();
+                Subject subject = subjectDepot.add(new Subject(subjectName));
+                System.out.println(subject + " created");
+            }
+
+            if (command.equals(ADD)) {
+                String subjectName = cin.next();
+                int gradeValue = cin.nextInt();
+
+                Subject subject = subjectDepot.getByName(subjectName);
+                Grade grade = gradeDepot.getByValue(gradeValue);
+
+                if (subject == null || grade == null) {
+                    System.out.println("There is no " + subjectName + " or " + gradeValue);
+                    continue;
+                }
+
+                SubjectGrade subjectGrade = new SubjectGrade(subject, new Date(), grade);
+
+                subjectGradeDepot.add(subjectGrade);
+
+                System.out.println(subjectGrade + " added");
+            }
+
+            if (command.equals(PLOT)) {
+                GradePlot gradePlot;
+
+                String subjectName = cin.next();
+                Subject subject = subjectDepot.getByName(subjectName);
+
+                String[] tokens = cin.nextLine().trim().split(" ");
+
+                if (tokens.length >= 2) {
+                    DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+                    Date since = format.parse(tokens[0] + " " + tokens[1]);
+
+                    if (tokens.length == 4) {
+                        Date until = format.parse(tokens[2] + " " + tokens[3]);
+                        gradePlot = new GradePlot(subject, since, until);
+                    } else {
+                        gradePlot = new GradePlot(subject, since);
+                    }
+                } else {
+                    gradePlot = new GradePlot(subject);
+                }
+
+                gradePlot.setVisible(true);
+            }
+
+            if (command.equals(END)) {
+                System.out.println("Bye!");
+                System.exit(0);
+            }
+        }
     }
 
 }
