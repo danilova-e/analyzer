@@ -56,7 +56,11 @@ public class Graph extends JFrame {
                 if(pane2.getComponentCount() > 0) {
                     pane2.removeAll();
                 }
-                pane2.add(createComponentPlot());
+                try {
+                    pane2.add(createComponentPlot());
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
                 pane2.revalidate();
             }
         });
@@ -203,7 +207,7 @@ public class Graph extends JFrame {
         buttonPlot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                GradePlot gradePlot;
+                GradePlot gradePlot = null;
 
                 String subjectName = fieldName.getText().toString();
                 Subject subject = subjectDepot.getByName(subjectName);
@@ -229,7 +233,11 @@ public class Graph extends JFrame {
                 }
                 -----*/
 
-                gradePlot = new GradePlot(subject);
+                try {
+                    gradePlot = new GradePlot(subject);
+                } catch (ParseException e1) {
+                    e1.printStackTrace();
+                }
                 gradePlot.setVisible(true);
             }
         });
