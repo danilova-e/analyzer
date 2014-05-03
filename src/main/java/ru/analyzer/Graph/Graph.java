@@ -215,6 +215,8 @@ public class Graph extends JFrame {
                 String s = fieldSince.getText();
                 s += fieldUntil.getText();
 
+
+                //Что за tokens?!?
                 String[] tokens = s.trim().split(" ");
 
                 /*if (tokens.length >= 2) {
