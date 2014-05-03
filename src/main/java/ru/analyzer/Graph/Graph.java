@@ -103,8 +103,8 @@ public class Graph extends JFrame {
         buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String subjectName = fieldName.getText().toString();
-                int gradeValue = Integer.parseInt(fieldValue.getText().toString());
+                String subjectName = fieldName.getText();
+                int gradeValue = Integer.parseInt(fieldValue.getText());
 
                 Subject subject = subjectDepot.getByName(subjectName);
                 Grade grade = gradeDepot.getByValue(gradeValue);
@@ -165,7 +165,7 @@ public class Graph extends JFrame {
         buttonSave.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String subjectName = fieldName.getText().toString();
+                String subjectName = fieldName.getText();
                 Subject subject = subjectDepot.add(new Subject(subjectName));
                 JOptionPane.showMessageDialog(null, subject + " created");
             }
@@ -209,11 +209,11 @@ public class Graph extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 GradePlot gradePlot = null;
 
-                String subjectName = fieldName.getText().toString();
+                String subjectName = fieldName.getText();
                 Subject subject = subjectDepot.getByName(subjectName);
 
-                String s = fieldSince.getText().toString();
-                s += fieldUntil.getText().toString();
+                String s = fieldSince.getText();
+                s += fieldUntil.getText();
 
                 String[] tokens = s.trim().split(" ");
 
