@@ -1,20 +1,18 @@
+package ru.analyzer.graph;
 
+import ru.analyzer.db.GradeDepot;
+import ru.analyzer.db.SubjectDepot;
+import ru.analyzer.db.SubjectGradeDepot;
+import ru.analyzer.model.Grade;
+import ru.analyzer.model.Subject;
+import ru.analyzer.model.SubjectGrade;
+import ru.analyzer.plot.GradePlot;
 
-        import ru.analyzer.db.GradeDepot;
-        import ru.analyzer.db.SubjectDepot;
-        import ru.analyzer.db.SubjectGradeDepot;
-        import ru.analyzer.model.Grade;
-        import ru.analyzer.model.Subject;
-        import ru.analyzer.model.SubjectGrade;
-        import ru.analyzer.plot.GradePlot;
-
-        import javax.swing.*;
-        import java.awt.*;
-        import java.awt.event.*;
-        import java.text.DateFormat;
-        import java.text.ParseException;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import java.text.ParseException;
+import java.util.Date;
 
 public class Graph extends JFrame {
 
@@ -243,4 +241,5 @@ public class Graph extends JFrame {
         JFrame.setDefaultLookAndFeelDecorated(true);
         new Graph().setVisible(true);
     }
+
 }
