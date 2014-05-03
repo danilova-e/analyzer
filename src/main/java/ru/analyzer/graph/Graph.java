@@ -1,4 +1,4 @@
-package ru.analyzer.raph;
+package ru.analyzer.graph;
 
 import ru.analyzer.db.GradeDepot;
 import ru.analyzer.db.SubjectDepot;
