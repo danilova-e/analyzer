@@ -92,11 +92,13 @@ public class GradePlot extends JFrame {
 
         plot.setLineRenderer(trend, lines);
         plot.setLineRenderer(time2grade, lines2);
-        plot.getLineRenderer(trend).setColor(Color.blue);
-        plot.getLineRenderer(time2grade).setColor(Color.lightGray);
+        plot.getLineRenderer(trend).setColor(Color.BLUE);
+        plot.getLineRenderer(time2grade).setColor(new Color(0.0f, 0.3f, 1.0f, 0.3f));
+        plot.getPointRenderer(time2grade).setColor(Color.lightGray);
+        plot.getPointRenderer(trend).setColor(Color.white);
 
         setMinimumSize(getContentPane().getMinimumSize());
-        plot.setInsets(new Insets2D.Double(20.0, 50.0, 40.0, 20.0)); 
+        plot.setInsets(new Insets2D.Double(20.0, 50.0, 40.0, 20.0));
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setSize(900, 500);
     }
