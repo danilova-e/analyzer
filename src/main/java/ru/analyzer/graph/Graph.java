@@ -10,8 +10,11 @@ import ru.analyzer.plot.GradePlot;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Graph extends JFrame {
@@ -97,6 +100,8 @@ public class Graph extends JFrame {
         fieldValue = new JTextField();
         namePanel.add(labelValue);
         namePanel.add(fieldValue);
+
+
 
         JButton buttonSave = new JButton("Save");
 
@@ -212,33 +217,45 @@ public class Graph extends JFrame {
                 String subjectName = fieldName.getText();
                 Subject subject = subjectDepot.getByName(subjectName);
 
-                String s = fieldSince.getText();
-                s += fieldUntil.getText();
+                String s = fieldSince.getText().trim() + " " + fieldUntil.getText().trim();
 
-
-                //Что за tokens?!?
                 String[] tokens = s.trim().split(" ");
 
-                /*if (tokens.length >= 2) {
+                if (tokens.length >= 2) {
                     DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
-                    Date since = format.parse(tokens[0] + " " + tokens[1]);
+                    Date since = null;
+                    try {
+                        since = format.parse(tokens[0] + " " + tokens[1]);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
 
                     if (tokens.length == 4) {
-                        Date until = format.parse(tokens[2] + " " + tokens[3]);
-                        gradePlot = new GradePlot(subject, since, until);
+                        Date until = null;
+                        try {
+                            until = format.parse(tokens[2] + " " + tokens[3]);
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
+                        try {
+                            gradePlot = new GradePlot(subject, since, until);
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
                     } else {
-                        gradePlot = new GradePlot(subject, since);
+                        try {
+                            gradePlot = new GradePlot(subject, since);
+                        } catch (ParseException e1) {
+                            e1.printStackTrace();
+                        }
                     }
                 } else {
-                    gradePlot = new GradePlot(subject);
-                }
-                -----*/
-
-                try {
-                    gradePlot = new GradePlot(subject);
-                } catch (ParseException e1) {
-                    e1.printStackTrace();
+                    try {
+                        gradePlot = new GradePlot(subject);
+                    } catch (ParseException e1) {
+                        e1.printStackTrace();
+                    }
                 }
                 gradePlot.setVisible(true);
             }
